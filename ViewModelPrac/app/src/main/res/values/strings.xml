@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ViewModelPrac</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="number_text">current number is %d</string>
+    <string name="btn_text">Button</string>
+    <string name="prev_btn_text">Prev</string>
+    <string name="up_btn_text">Up</string>
+    <string name="zero_text">0</string>
+</resources>

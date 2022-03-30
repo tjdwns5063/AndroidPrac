@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RecyclerViewPrac</string>
+    <string name="hint_text">what is your name?</string>
+</resources>

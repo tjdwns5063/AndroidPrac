@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.networkprac2.detail.DetailViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        tools:context=".detail.DetailFragment">
+
+        <!-- TODO: Update blank fragment layout -->
+        <ImageView
+            android:id="@+id/detail_movie_img"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="350dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_height="350dp"
+            app:movie_img="@{viewModel.selectedProperty}"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+            android:id="@+id/detail_movie_name_text"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="23sp"
+            android:textAlignment="center"
+            app:detail_movie_name="@{viewModel.selectedProperty}"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/detail_movie_audi_cnt"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:movie_audi_cnt="@{viewModel.selectedProperty}"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/detail_movie_audi_acc"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:movie_audi_acc="@{viewModel.selectedProperty}"
+            android:text="TextView" />
+
+    </LinearLayout>
+</layout>
