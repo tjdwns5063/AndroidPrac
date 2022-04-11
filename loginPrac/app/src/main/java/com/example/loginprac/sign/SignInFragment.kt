@@ -8,18 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.loginprac.R
 import com.example.loginprac.databinding.FragmentSignInBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlin.math.sign
 
 class SignInFragment : Fragment() {
-    lateinit var binding: FragmentSignInBinding
-    lateinit var auth: FirebaseAuth
+    private lateinit var binding: FragmentSignInBinding
+    private lateinit var auth: FirebaseAuth
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,7 +40,7 @@ class SignInFragment : Fragment() {
     }
 
     private fun checkSign(context: Context): Boolean {
-        if (binding.signInSwitch.isChecked == false) {
+        if (!binding.signInSwitch.isChecked) {
             Toast.makeText(context, "약관에 동의하지 않았습니다.", Toast.LENGTH_LONG)
                 .show()
             return (false)
@@ -77,8 +75,8 @@ class SignInFragment : Fragment() {
         val email = binding.signInIdEditText.text
         val password = binding.signInPwEditText.text
 
-        auth?.createUserWithEmailAndPassword(email.toString(), password.toString())
-            ?.addOnCompleteListener {
+        auth.createUserWithEmailAndPassword(email.toString(), password.toString())
+            .addOnCompleteListener {
                 if (it.isSuccessful) {
                     Toast.makeText(context, "계정 생성 완료", Toast.LENGTH_LONG).show()
                     binding.signInIdEditText.text.clear()
@@ -103,15 +101,15 @@ class SignInFragment : Fragment() {
         builder.setIcon(R.mipmap.ic_launcher)
         val customView = layoutInflater.inflate(R.layout.fragment_sign_term, null)
         builder.setView(customView)
-        builder.setPositiveButton("OK", { dialog, id ->
-            if (binding.signInSwitch.isChecked == false) {
+        builder.setPositiveButton("OK") { dialog, _ ->
+            if (!binding.signInSwitch.isChecked) {
                 binding.signInSwitch.performClick()
             }
             dialog.cancel()
-        })
-        builder.setNegativeButton("Cancel", { dialog, id ->
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ ->
             dialog.cancel()
-        })
+        }
         builder.show()
     }
 }

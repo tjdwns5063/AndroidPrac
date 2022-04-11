@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.loginprac.R
@@ -17,8 +16,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class SignFragment : Fragment() {
-    lateinit var auth: FirebaseAuth
-    lateinit var binding: FragmentSignBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var binding: FragmentSignBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,9 +28,16 @@ class SignFragment : Fragment() {
         }
         auth = Firebase.auth
         val context = requireActivity().applicationContext
-        // Inflate the layout for this fragment
         binding.loginBtn.setOnClickListener { onClickLogin(context) }
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            findNavController().navigate(R.id.action_signFragment_to_resultFragment)
+        }
     }
 
     private fun onClickLogin(context: Context) {
@@ -44,8 +50,8 @@ class SignFragment : Fragment() {
         val email = binding.idEditText.text
         val password = binding.pwEditText.text
 
-        auth?.signInWithEmailAndPassword(email.toString(), password.toString())
-            ?.addOnCompleteListener {
+        auth.signInWithEmailAndPassword(email.toString(), password.toString())
+            .addOnCompleteListener {
                 if (it.isSuccessful) {
                     Toast.makeText(context, "로그인에 성공했습니다.", Toast.LENGTH_LONG)
                         .show()
