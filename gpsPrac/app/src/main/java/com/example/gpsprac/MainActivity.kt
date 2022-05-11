@@ -4,32 +4,51 @@ import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationRequest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.example.gpsprac.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var binding: ActivityMainBinding
     lateinit var fusedLocationClient: FusedLocationProviderClient
+    lateinit var mMap: GoogleMap
     var currLocation: Location? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        binding.mapView.onCreate(savedInstanceState)
+        binding.mapView.getMapAsync(this)
         binding.button.setOnClickListener {
             checkCurrentLocation()
             binding.latitudeText.text = "위도: ${currLocation?.latitude.toString()}"
             binding.longitudeText.text = "경도: ${currLocation?.longitude.toString()}"
+            addMarkerAtCurrentLocation()
         }
         setContentView(binding.root)
+    }
+
+    fun addMarkerAtCurrentLocation() {
+        var currLatLng: LatLng? = null
+        if (currLocation != null)
+            currLatLng = LatLng(currLocation?.latitude.toString().toDouble(), currLocation?.longitude.toString().toDouble())
+
+        if (currLatLng != null) {
+            Log.i("CurrLoc", "${currLatLng.latitude}, ${currLatLng.longitude}")
+            mMap.addMarker(MarkerOptions().position(currLatLng).title("current location"))
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(currLatLng))
+        }
+        Log.i("CurrLoc", "LatLng is null")
     }
 
     fun checkCurrentLocation() {
@@ -48,5 +67,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.mapView.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.mapView.onResume()
     }
 }
