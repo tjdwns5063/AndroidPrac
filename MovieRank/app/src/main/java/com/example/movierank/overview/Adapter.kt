@@ -5,10 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.movierank.databinding.RecyclerItemViewBinding
-import com.example.movierank.network.MovieInfo
+import com.example.movierank.network.ResultData
 
-class Adapter: ListAdapter<MovieInfo, Adapter.ViewHolder>(DiffCallback()) {
+class Adapter: ListAdapter<ResultData, Adapter.ViewHolder>(DiffCallback()) {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
@@ -19,9 +20,12 @@ class Adapter: ListAdapter<MovieInfo, Adapter.ViewHolder>(DiffCallback()) {
     }
 
     class ViewHolder(val binding: RecyclerItemViewBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: MovieInfo) {
-            val text = item.rnum + ". " + item.movieNm
+        fun bind(item: ResultData) {
+            val text = item.movieInfo.rnum + ". " + item.movieInfo.movieNm
             binding.recyclerText.text = text
+            Glide.with(binding.root)
+                .load(item.image)
+                .into(binding.recyclerImg)
         }
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
@@ -32,12 +36,12 @@ class Adapter: ListAdapter<MovieInfo, Adapter.ViewHolder>(DiffCallback()) {
         }
     }
 
-    class DiffCallback: DiffUtil.ItemCallback<MovieInfo>() {
-        override fun areContentsTheSame(oldItem: MovieInfo, newItem: MovieInfo): Boolean {
-            return (oldItem.rnum == newItem.rnum)
+    class DiffCallback: DiffUtil.ItemCallback<ResultData>() {
+        override fun areContentsTheSame(oldItem: ResultData, newItem: ResultData): Boolean {
+            return (oldItem.movieInfo.rnum == newItem.movieInfo.rnum)
         }
 
-        override fun areItemsTheSame(oldItem: MovieInfo, newItem: MovieInfo): Boolean {
+        override fun areItemsTheSame(oldItem: ResultData, newItem: ResultData): Boolean {
             return (oldItem == newItem)
         }
     }

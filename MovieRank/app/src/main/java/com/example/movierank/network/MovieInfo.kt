@@ -8,6 +8,7 @@ data class MovieResult(
     val movieInfos: MovieInfos
 )
 
+//kobis api
 @JsonClass(generateAdapter = true)
 data class MovieInfos(
     val boxofficeType: String,
@@ -22,4 +23,19 @@ data class MovieInfo(
     val movieNm: String,
     val openDt: String,
     val audiAcc: String
+)
+// naver movie api
+data class MovieImg(
+    val items: List<Img>
+)
+
+@JsonClass(generateAdapter = true)
+data class Img(
+    val image: String
+)
+
+// result data
+data class ResultData(
+    val movieInfo: MovieInfo,
+    val image: String
 )
