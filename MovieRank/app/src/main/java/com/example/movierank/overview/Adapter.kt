@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.movierank.R
 import com.example.movierank.databinding.RecyclerItemViewBinding
 import com.example.movierank.network.ResultData
 
